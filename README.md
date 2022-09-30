@@ -1,0 +1,1 @@
+- eliminar tarea del local storage despues de presionar icono de eliminar
