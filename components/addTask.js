@@ -1,6 +1,8 @@
 import checkComplete from "./checkComplete.js";
 import deleteIcon from "./deleteIcon.js";
 
+import { displayTasks } from "./ displayTasks.js";
+
 // Agregar la tarea
 export const addTasK = (evento) => {
     evento.preventDefault();
@@ -13,6 +15,11 @@ export const addTasK = (evento) => {
     const date=calendar.value;
     const dateFormat = moment(date).format("DD/MM/YYYY");
 
+    if(value == "" || date == ""){
+        //no ejecuta y regresa
+        return
+    }
+
     input.value= '';
     calendar.value= '';
 
@@ -20,13 +27,16 @@ export const addTasK = (evento) => {
         value,
         dateFormat
     }
+
+    list.innerHTML="";
     // pipe operator
     const taskList = JSON.parse(localStorage.getItem("Task")) || [];
     taskList.push(taskObject);
     localStorage.setItem('Task', JSON.stringify(taskList));
     // llamada a la funcion
-    const task = createTask(taskObject);
-    list.appendChild(task);
+    displayTasks();
+    // const task = createTask(taskObject);
+    // list.appendChild(task);
 }
 
 // crear estructura HTML
