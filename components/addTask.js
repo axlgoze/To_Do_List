@@ -2,6 +2,7 @@ import checkComplete from "./checkComplete.js";
 import deleteIcon from "./deleteIcon.js";
 
 import { displayTasks } from "./ displayTasks.js";
+import { uniqueDates } from "../services/date.js";
 
 // Agregar la tarea
 export const addTasK = (evento) => {
@@ -23,9 +24,13 @@ export const addTasK = (evento) => {
     input.value= '';
     calendar.value= '';
 
+    const complete = false; 
+
     const taskObject = {
         value,
-        dateFormat
+        dateFormat,
+        complete,
+        id: uuid.v4()
     }
 
     list.innerHTML="";
@@ -40,22 +45,29 @@ export const addTasK = (evento) => {
 }
 
 // crear estructura HTML
-export const createTask = ({value,dateFormat}) => {
+export const createTask = ({value,dateFormat,complete,id}) => {
     const dateElement= document.createElement("span");
     const taskContent = document.createElement("div");
     const task = document.createElement("li");
     const titleTask = document.createElement("span");
+    const check =checkComplete(id);
+    if(complete){
+        console.log("completada");
+        check.classList.toggle("fas");
+        check.classList.toggle("completeIcon");
+        check.classList.toggle("far");
+    }
     
             dateElement.innerHTML = dateFormat;
             titleTask.classList.add("task");
             task.classList.add("card");
             titleTask.innerText = value;
 
-            taskContent.appendChild(checkComplete());
+            taskContent.appendChild(check);
             taskContent.appendChild(titleTask);
 
             task.appendChild(taskContent);
             task.appendChild(dateElement);
-            task.appendChild(deleteIcon());
+            task.appendChild(deleteIcon(id));
     return task;
 }
